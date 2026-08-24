@@ -1,0 +1,11 @@
+{
+  "name": "khata-shield",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Privacy-first digital financial record and GST awareness PWA for small vendors",
+  "scripts": {
+    "start": "npx --yes serve@14.2.4 .",
+    "test": "node --test tests/core.test.js"
+  },
+  "license": "MIT"
+}

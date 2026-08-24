@@ -1,0 +1,10 @@
+{
+  "name": "Khata Shield",
+  "short_name": "Khata Shield",
+  "description": "Privacy-first digital financial records for small vendors",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f6f8f7",
+  "theme_color": "#0b6b53",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
