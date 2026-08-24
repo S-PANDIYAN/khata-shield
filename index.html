@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b6b53" />
+  <meta name="description" content="Privacy-first financial records for small vendors" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Khata Shield</title>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#dashboard" aria-label="Khata Shield home">
+      <span class="logo">₹</span><span><strong>Khata Shield</strong><small>My money. My records.</small></span>
+    </a>
+    <div class="header-actions">
+      <span class="privacy-pill">● Stored on this device</span>
+      <button id="installBtn" class="button secondary hidden">Install app</button>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Main navigation">
+    <button data-view="dashboard" class="active">Dashboard</button>
+    <button data-view="transactions">Transactions</button>
+    <button data-view="reports">Reports</button>
+    <button data-view="awareness">Awareness</button>
+    <button data-view="settings">Settings</button>
+  </nav>
+
+  <main>
+    <section id="dashboard" class="view active">
+      <div class="hero">
+        <div><p class="eyebrow">NAMASKARA 👋</p><h1>Know your real business turnover</h1><p>Separate sales from personal transfers. Simple, private, and proof-ready.</p></div>
+        <button class="button primary" data-open-form>+ Add transaction</button>
+      </div>
+      <div class="cards metrics">
+        <article><span>Business sales</span><strong id="businessMetric">₹0</strong><small id="businessPeriod">This month</small></article>
+        <article><span>Total money received</span><strong id="inflowMetric">₹0</strong><small>This month</small></article>
+        <article><span>Not business income</span><strong id="nonBusinessMetric">₹0</strong><small>Personal + other</small></article>
+        <article class="health-card"><span>Record health</span><strong id="healthMetric">Good</strong><small id="healthHint">Keep classifying entries</small></article>
+      </div>
+      <div class="grid two">
+        <article class="panel"><div class="panel-title"><div><h2>Sales trend</h2><p>Last 6 months</p></div></div><div id="chart" class="chart" aria-label="Monthly business sales chart"></div></article>
+        <article class="panel"><div class="panel-title"><div><h2>Recent activity</h2><p>Your latest records</p></div><button class="link" data-go="transactions">View all</button></div><div id="recentList" class="transaction-list"></div></article>
+      </div>
+      <div class="notice"><span>🛡️</span><div><strong>Privacy first</strong><p>Your financial records stay in this browser. Khata Shield does not upload or sell your data.</p></div></div>
+    </section>
+
+    <section id="transactions" class="view">
+      <div class="section-head"><div><p class="eyebrow">YOUR LEDGER</p><h1>Transactions</h1><p>Classify every receipt so your business turnover stays accurate.</p></div><button class="button primary" data-open-form>+ Add transaction</button></div>
+      <div class="toolbar">
+        <input id="searchInput" type="search" placeholder="Search sender, note or amount" aria-label="Search transactions" />
+        <select id="categoryFilter" aria-label="Filter by category"><option value="all">All categories</option><option value="business">Business</option><option value="personal">Personal</option><option value="other">Other</option></select>
+        <input id="monthFilter" type="month" aria-label="Filter by month" />
+        <button id="clearFilters" class="button secondary">Clear</button>
+      </div>
+      <div class="panel table-wrap"><table><thead><tr><th>Date</th><th>From / note</th><th>Method</th><th>Category</th><th class="right">Amount</th><th></th></tr></thead><tbody id="transactionBody"></tbody></table><div id="emptyTransactions" class="empty hidden">No matching transactions.</div></div>
+    </section>
+
+    <section id="reports" class="view">
+      <div class="section-head"><div><p class="eyebrow">PROOF-READY</p><h1>Monthly report</h1><p>A clear summary of recorded inflows—not a tax filing.</p></div><div class="report-actions"><button id="exportCsv" class="button secondary">Export CSV</button><button id="printReport" class="button primary">Print / PDF</button></div></div>
+      <div class="report-controls panel"><label>Report month <input id="reportMonth" type="month" /></label><label>Business name <input id="reportBusiness" placeholder="My shop" maxlength="80" /></label></div>
+      <article id="reportSheet" class="report-sheet">
+        <div class="report-brand"><div><span class="logo">₹</span><strong>KHATA SHIELD</strong></div><span id="reportPeriodLabel"></span></div>
+        <h2 id="reportName">Vendor transaction summary</h2>
+        <p class="muted">Generated from records stored on this device</p>
+        <div class="cards report-metrics"><article><span>Business sales</span><strong id="reportBusinessTotal">₹0</strong></article><article><span>Personal transfers</span><strong id="reportPersonalTotal">₹0</strong></article><article><span>Other inflows</span><strong id="reportOtherTotal">₹0</strong></article><article><span>Total recorded inflow</span><strong id="reportGrandTotal">₹0</strong></article></div>
+        <table><thead><tr><th>Date</th><th>Details</th><th>Category</th><th class="right">Amount</th></tr></thead><tbody id="reportBody"></tbody></table>
+        <p class="report-disclaimer">This self-maintained record is for organization and awareness only. It is not an audited statement, tax return, or legal/tax advice.</p>
+      </article>
+    </section>
+
+    <section id="awareness" class="view">
+      <div class="section-head"><div><p class="eyebrow">UNDERSTAND, DON'T PANIC</p><h1>Financial awareness</h1><p>Simple indicators based only on transactions you marked as Business.</p></div></div>
+      <div class="awareness-grid">
+        <article class="panel gauge-panel"><h2>Recorded business activity</h2><div id="gauge" class="gauge"><div><strong id="annualTurnover">₹0</strong><span>Last 12 months</span></div></div><p id="thresholdText"></p></article>
+        <article class="panel"><h2>What Khata Shield counts</h2><ul class="check-list"><li><b>Business:</b> included in turnover indicators</li><li><b>Personal:</b> excluded from business turnover</li><li><b>Other:</b> excluded until you reclassify it</li></ul><div class="callout"><strong>Need certainty?</strong><p>Rules vary by business type and circumstances. Take your report to a qualified chartered accountant or tax professional.</p></div></article>
+      </div>
+      <div class="panel education"><h2>Good record habits</h2><div class="education-cards"><article><span>1</span><h3>Classify daily</h3><p>Review entries while you still remember them.</p></article><article><span>2</span><h3>Add a useful note</h3><p>Record the customer, item, or reason for transfer.</p></article><article><span>3</span><h3>Export monthly</h3><p>Keep a backup file somewhere you control.</p></article></div></div>
+      <div class="warning"><strong>Important:</strong> Khata Shield provides record-keeping and general awareness, not GST, legal, accounting, or tax advice. Indicators are not eligibility decisions.</div>
+    </section>
+
+    <section id="settings" class="view">
+      <div class="section-head"><div><p class="eyebrow">YOUR DEVICE, YOUR CONTROL</p><h1>Settings & data</h1></div></div>
+      <div class="grid two">
+        <article class="panel settings-form"><h2>Business profile</h2><label>Business name<input id="businessName" maxlength="80" placeholder="e.g. Lakshmi Tea Stall" /></label><label>Awareness reference amount (₹)<input id="thresholdInput" type="number" min="1" step="1000" /></label><p class="field-help">A configurable reference for the progress indicator only—not a determination of tax liability.</p><button id="saveSettings" class="button primary">Save settings</button></article>
+        <article class="panel"><h2>Backup & restore</h2><p>Export an encrypted-free JSON backup you can inspect and keep safely.</p><div class="stack"><button id="exportJson" class="button secondary">Download backup</button><label class="button secondary file-button">Restore backup<input id="importJson" type="file" accept="application/json" /></label><button id="loadDemo" class="button secondary">Load demo data</button><button id="clearData" class="button danger">Delete all local data</button></div></article>
+      </div>
+      <article class="panel privacy-detail"><h2>Privacy design</h2><p>Records are saved with browser local storage and processed on-device. No login, analytics tracker, advertising SDK, or financial-data API is included. Voice recognition, when used, depends on browser support and may use the browser provider's speech service; review your browser's privacy terms.</p></article>
+    </section>
+  </main>
+
+  <dialog id="transactionDialog">
+    <form id="transactionForm" method="dialog">
+      <div class="dialog-head"><div><p class="eyebrow">QUICK ENTRY</p><h2 id="formTitle">Add transaction</h2></div><button type="button" id="closeDialog" class="icon-button" aria-label="Close">×</button></div>
+      <input id="transactionId" type="hidden" />
+      <div class="voice-box"><button type="button" id="voiceBtn" class="button voice">🎙 Speak transaction</button><span id="voiceStatus">Try: “Received 250 rupees from Ravi for tea”</span></div>
+      <div class="form-grid"><label>Amount (₹)<input id="amount" type="number" min="0.01" step="0.01" required /></label><label>Date & time<input id="date" type="datetime-local" required /></label><label>Sender / customer<input id="party" maxlength="80" placeholder="Name or UPI ID" /></label><label>Payment method<select id="method"><option>UPI</option><option>Cash</option><option>Bank transfer</option><option>Other</option></select></label></div>
+      <label>Note<input id="note" maxlength="140" placeholder="e.g. Tea and snacks, family transfer" /></label>
+      <fieldset><legend>Classification</legend><div class="category-picker"><label><input type="radio" name="category" value="business" checked /><span>🏪 <b>Business</b><small>Sale or business receipt</small></span></label><label><input type="radio" name="category" value="personal" /><span>🏠 <b>Personal</b><small>Family or own transfer</small></span></label><label><input type="radio" name="category" value="other" /><span>••• <b>Other</b><small>Loan, reimbursement, unsure</small></span></label></div><p id="suggestion" class="suggestion"></p></fieldset>
+      <div class="dialog-actions"><button type="button" id="cancelDialog" class="button secondary">Cancel</button><button type="submit" class="button primary">Save transaction</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="core.js"></script><script src="app.js"></script>
+</body>
+</html>
