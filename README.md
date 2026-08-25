@@ -18,7 +18,7 @@ Khata Shield is a complete offline-first progressive web app (PWA) prototype bui
 - Responsive mobile/desktop UI and demo data
 - No backend, login, analytics, advertising SDK, or cloud database
 
-## Quick start
+
 
 ### Easiest (Python)
 
